@@ -1,14 +1,124 @@
 ﻿<Page
     x:Class="WeatherStation.MainPage"
+    xmlns:mvvm="using:Prism.Windows.Mvvm"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WeatherStation"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style x:Key="GridStyle1" TargetType="Grid"/>
+    </Page.Resources>
 
-    <Grid>
-
+    <Grid BorderThickness="1,1,1,1">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                    Height="Auto" />
+            <RowDefinition
+                    Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0,51,0,0" Text="Weather Station" TextWrapping="Wrap" VerticalAlignment="Top" Height="89" Width="563" RequestedTheme="Default" FontSize="72" Grid.RowSpan="3" FontFamily="Calibri Light"/>
+        <Grid
+            Grid.Row="1" Margin="0,200,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    x:Name="ColumnOne"
+                    Width="*" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Vertical" Margin="50,0">
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <TextBlock
+                    x:Name="Temperature"
+                    Text="Current Weather -"
+                    HorizontalAlignment="Left"
+                    FontSize="36" FontFamily="Bahnschrift"
+                    />
+                    <TextBlock
+                        Text="{x:Bind ViewModel.WeatherDesc}"
+                        FontFamily="Bahnschrift" FontSize="36" Foreground="Gray"
+                        Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <TextBlock
+                        Text="Temperature : " FontFamily="Corbel Light" FontSize="22"
+                        />
+                    <TextBlock
+                        Text="{x:Bind ViewModel.Temperature}"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="Gray"
+                        Margin="10,0,0,0"
+                        />
+                    <TextBlock
+                        Text="degree Celcius"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="Gray"
+                        Margin="10,0,0,0" FontStyle="Italic"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <TextBlock
+                        Text="Temperature feels like : " FontFamily="Corbel Light" FontSize="22"
+                        />
+                    <TextBlock
+                        Text="{x:Bind ViewModel.TemperatureFeelsLike}"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="Gray"
+                        Margin="10,0,0,0"
+                        />
+                    <TextBlock
+                        Text="degree Celcius"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="Gray"
+                        Margin="10,0,0,0" FontStyle="Italic"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <TextBlock
+                        Text="Humidity : " FontFamily="Corbel Light" FontSize="22"
+                        />
+                    <TextBlock
+                        Text="{x:Bind ViewModel.Humidity}"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="Gray"
+                        Margin="10,0,0,0"
+                        />
+                    <TextBlock
+                        Text="%"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="Gray"
+                        Margin="10,0,0,0" FontStyle="Italic"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <TextBlock
+                        Text="Wind Speed : " FontFamily="Corbel Light" FontSize="22"
+                        />
+                    <TextBlock
+                        Text="{x:Bind ViewModel.WindSpeed}"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="Gray"
+                        Margin="10,0,0,0"
+                        />
+                    <TextBlock
+                        Text="meter per second"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="Gray"
+                        Margin="10,0,0,0" FontStyle="Italic"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                    <TextBlock
+                        Text="Cloudiness : " FontFamily="Corbel Light" FontSize="22"
+                        />
+                    <TextBlock
+                        Text="{x:Bind ViewModel.Cloudiness}"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="Gray"
+                        Margin="10,0,0,0"
+                        />
+                    <TextBlock
+                        Text="%"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="Gray"
+                        Margin="10,0,0,0" FontStyle="Italic"
+                        />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
