@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="CurrentWeatherApiResponse.cs" />
     <Compile Include="ForecastedWeatherApiResponse.cs" />
+    <Compile Include="UserLocationUtil.cs" />
     <Compile Include="WeatherClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
