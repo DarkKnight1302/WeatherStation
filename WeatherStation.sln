@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherStation", "WeatherSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTasks", "BackgroundTasks\BackgroundTasks.csproj", "{E90218D9-6CC4-47FE-A173-B6671B044048}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherStationLib", "WeatherStationLib\WeatherStationLib.csproj", "{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,26 @@ Global
 		{E90218D9-6CC4-47FE-A173-B6671B044048}.Release|x64.Build.0 = Release|x64
 		{E90218D9-6CC4-47FE-A173-B6671B044048}.Release|x86.ActiveCfg = Release|x86
 		{E90218D9-6CC4-47FE-A173-B6671B044048}.Release|x86.Build.0 = Release|x86
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|ARM.Build.0 = Debug|ARM
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|ARM64.Build.0 = Debug|ARM64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|x64.ActiveCfg = Debug|x64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|x64.Build.0 = Debug|x64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|x86.ActiveCfg = Debug|x86
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Debug|x86.Build.0 = Debug|x86
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|ARM.ActiveCfg = Release|ARM
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|ARM.Build.0 = Release|ARM
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|ARM64.ActiveCfg = Release|ARM64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|ARM64.Build.0 = Release|ARM64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|x64.ActiveCfg = Release|x64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|x64.Build.0 = Release|x64
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|x86.ActiveCfg = Release|x86
+		{8D74FD71-4EA1-4C75-ACEC-99463EC9A1E8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
