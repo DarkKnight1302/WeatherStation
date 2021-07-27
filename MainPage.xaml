@@ -14,6 +14,9 @@
     </Page.Resources>
 
     <Grid BorderThickness="1,1,1,1">
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="Assets/beautiful-weather.jpg" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition
                     Height="Auto" />
@@ -30,6 +33,19 @@
                 <ColumnDefinition
                     Width="*" />
             </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Vertical" Margin="0,10">
+                <TextBlock
+                    x:Name="FavWeather"
+                    Text="Set your favourite weather"
+                    HorizontalAlignment="Center"
+                    FontSize="36" FontFamily="Bahnschrift"
+                    />
+                <ToggleSwitch IsOn="{x:Bind ViewModel.ToggleSwitchOn, Mode=TwoWay}"
+                              OffContent="Enable Favourite Weather Notifications"
+                              OnContent="Favourite Weather Notifications Enabled"
+                              Margin="0,10"
+                              HorizontalAlignment="Center"></ToggleSwitch>
+            </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Vertical" Margin="50,0">
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <TextBlock

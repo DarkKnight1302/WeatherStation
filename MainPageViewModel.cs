@@ -17,6 +17,8 @@ namespace WeatherStation
 
         public int Cloudiness => 5;
 
+        public bool ToggleSwitchOn { get; set; } = true;
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
