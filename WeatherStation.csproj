@@ -154,6 +154,12 @@
       <Version>6.2.11</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="WeatherStationLib\WeatherStationLib.csproj">
+      <Project>{8d74fd71-4ea1-4c75-acec-99463ec9a1e8}</Project>
+      <Name>WeatherStationLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
