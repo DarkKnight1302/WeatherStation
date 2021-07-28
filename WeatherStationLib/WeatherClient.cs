@@ -53,7 +53,7 @@ namespace WeatherStationLib
             string uri = $"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lng}&exclude={exclude}&appid={AppId}&units=metric";
             var response = await this.httpClient.GetAsync(uri).ConfigureAwait(false);
             var data = JsonConvert.DeserializeObject<ForecastedWeatherApiResponse>(response.Content.ReadAsStringAsync().Result);
-            this.cacheService.UpdateDataAsync(data);
+            _ = Task.Run(() => this.cacheService.UpdateDataAsync(data));
             return data;
         }
 

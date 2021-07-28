@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,73 +10,73 @@ namespace WeatherStationLib
 {
     public sealed class Rain
     {
-        [JsonPropertyName("1h")]
+        [JsonProperty("1h")]
         public double _1h { get; set; }
     }
 
     public sealed class Hourly
     {
-        [JsonPropertyName("dt")]
+        [JsonProperty("dt")]
         public int Dt { get; set; }
 
-        [JsonPropertyName("temp")]
+        [JsonProperty("temp")]
         public double Temp { get; set; }
 
-        [JsonPropertyName("feels_like")]
+        [JsonProperty("feels_like")]
         public double FeelsLike { get; set; }
 
-        [JsonPropertyName("pressure")]
+        [JsonProperty("pressure")]
         public int Pressure { get; set; }
 
-        [JsonPropertyName("humidity")]
+        [JsonProperty("humidity")]
         public int Humidity { get; set; }
 
-        [JsonPropertyName("dew_point")]
+        [JsonProperty("dew_point")]
         public double DewPoint { get; set; }
 
-        [JsonPropertyName("uvi")]
+        [JsonProperty("uvi")]
         public double Uvi { get; set; }
 
-        [JsonPropertyName("clouds")]
+        [JsonProperty("clouds")]
         public int Clouds { get; set; }
 
-        [JsonPropertyName("visibility")]
+        [JsonProperty("visibility")]
         public int Visibility { get; set; }
 
-        [JsonPropertyName("wind_speed")]
+        [JsonProperty("wind_speed")]
         public double WindSpeed { get; set; }
 
-        [JsonPropertyName("wind_deg")]
+        [JsonProperty("wind_deg")]
         public int WindDeg { get; set; }
 
-        [JsonPropertyName("wind_gust")]
+        [JsonProperty("wind_gust")]
         public double WindGust { get; set; }
 
-        [JsonPropertyName("weather")]
+        [JsonProperty("weather")]
         public IEnumerable<Weather> Weather { get; set; }
 
-        [JsonPropertyName("pop")]
+        [JsonProperty("pop")]
         public double Pop { get; set; }
 
-        [JsonPropertyName("rain")]
+        [JsonProperty("rain")]
         public Rain Rain { get; set; }
     }
 
     public sealed class ForecastedWeatherApiResponse
     {
-        [JsonPropertyName("lat")]
+        [JsonProperty("lat")]
         public double Lat { get; set; }
 
-        [JsonPropertyName("lon")]
+        [JsonProperty("lon")]
         public double Lon { get; set; }
 
-        [JsonPropertyName("timezone")]
+        [JsonProperty("timezone")]
         public string Timezone { get; set; }
 
-        [JsonPropertyName("timezone_offset")]
+        [JsonProperty("timezone_offset")]
         public int TimezoneOffset { get; set; }
 
-        [JsonPropertyName("hourly")]
+        [JsonProperty("hourly")]
         public IEnumerable<Hourly> Hourly { get; set; }
     }
 }

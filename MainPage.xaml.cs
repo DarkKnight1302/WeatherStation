@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WeatherStationLib;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -29,5 +30,10 @@ namespace WeatherStation
         public MainPageViewModel ViewModel => this.DataContext as MainPageViewModel;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ViewModel.SelectedWeatherCondition = (WeatherCondition)this.WeatherState.SelectedItem;
+        }
     }
 }
