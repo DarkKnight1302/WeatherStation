@@ -19,9 +19,9 @@ namespace WeatherStationLib
             return this.SetDataAsync(data).AsAsyncOperation<bool>();
         }
 
-        public IAsyncOperation<Hourly> FetchDataAsync(DateTimeOffset dt)
+        public IAsyncOperation<List<Hourly>> FetchDataAsync(List<DateTimeOffset> dtOffsetList)
         {
-            return this.GetDataAsync(dt).AsAsyncOperation<Hourly>();
+            return this.GetDataAsync(dtOffsetList).AsAsyncOperation<List<Hourly>>();
         }
 
         private async Task<bool> SetDataAsync(ForecastedWeatherApiResponse data)
@@ -38,10 +38,8 @@ namespace WeatherStationLib
             return true;
         }
 
-        private async Task<Hourly> GetDataAsync(DateTimeOffset dt)
+        private async Task<List<Hourly>> GetDataAsync(List<DateTimeOffset> dtOffsetList)
         {
-            long unixTime = dt.ToUnixTimeSeconds();
-            Hourly hourly = null;
             ForecastedWeatherApiResponse obj = null;
             IStorageItem item = await ApplicationData.Current.LocalCacheFolder.TryGetItemAsync(CacheFileName);
             if (item?.IsOfType(StorageItemTypes.File) == true)
@@ -59,20 +57,28 @@ namespace WeatherStationLib
                     obj = JsonConvert.DeserializeObject<ForecastedWeatherApiResponse>(jsonString);
                 }
             }
-            long diff = long.MaxValue;
-            if (obj != null)
+            List<Hourly> hourlyList = new List<Hourly>();
+            foreach (DateTimeOffset dtOffset in dtOffsetList)
             {
-                foreach (Hourly hrly in obj.Hourly)
+                long unixTime = dtOffset.ToUnixTimeSeconds();
+                long diff = long.MaxValue;
+                Hourly hourly = null;
+                if (obj != null)
                 {
-                    long absDiff = Math.Abs(hrly.Dt - unixTime);
-                    if (absDiff < diff)
+                    foreach (Hourly hrly in obj.Hourly)
                     {
-                        hourly = hrly;
-                        diff = absDiff;
+                        long absDiff = Math.Abs(hrly.Dt - unixTime);
+                        if (absDiff < diff)
+                        {
+                            hourly = hrly;
+                            diff = absDiff;
+                        }
                     }
+                    hourlyList.Add(hourly);
                 }
             }
-            return hourly;
+            
+            return hourlyList;
         }
 
         private byte[] ToByteArray(ForecastedWeatherApiResponse data)
