@@ -33,12 +33,12 @@ namespace WeatherStationLib
             return this.GetForecastedWeatherUsingLatLong(lat, lng).AsAsyncOperation<ForecastedWeatherApiResponse>();
         }
 
-        public IAsyncOperation<bool> AreConditionsPreferableAsync(CurrentWeatherApiResponse current, UserCustomWeather userWeather)
+        public bool AreConditionsPreferableAsync(CurrentWeatherApiResponse current, UserCustomWeather userWeather)
         {
-            return this.CompareWeather(current, userWeather).AsAsyncOperation<bool>();
+            return this.CompareWeather(current, userWeather);
         }
 
-        private async Task<bool> CompareWeather(CurrentWeatherApiResponse current, UserCustomWeather userWeather)
+        private bool CompareWeather(CurrentWeatherApiResponse current, UserCustomWeather userWeather)
         {
             var currentTemp = current.Main.Temp;
             var currentHumidity = current.Main.Humidity;

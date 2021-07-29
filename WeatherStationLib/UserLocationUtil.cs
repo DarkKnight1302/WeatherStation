@@ -22,6 +22,7 @@ namespace WeatherStationLib
 
         public static Location GetGeoLocationFromSettings()
         {
+            Task.Run(async () => await GetGeoLocationLatLngAsync());
             if (localSettings.Values.ContainsKey(locationKey))
             {
                 var composite = (ApplicationDataCompositeValue)localSettings.Values[locationKey];
