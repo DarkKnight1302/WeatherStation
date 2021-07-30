@@ -121,7 +121,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CacheServie.cs" />
+    <Compile Include="CacheService.cs" />
     <Compile Include="CurrentWeatherApiResponse.cs" />
     <Compile Include="ForecastedWeatherApiResponse.cs" />
     <Compile Include="UserCustomWeather.cs" />

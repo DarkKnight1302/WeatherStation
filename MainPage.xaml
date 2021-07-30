@@ -34,19 +34,19 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="Auto">
                 <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" Text="Station Location:" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Right" Margin="0,10,0,0" Text="{x:Bind ViewModel.StationLocation, Mode=OneWay}" VerticalAlignment="Top" Foreground="Red"/>
+                <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" Text="{x:Bind ViewModel.StationLocation, Mode=OneWay}" VerticalAlignment="Top" Foreground="Red"/>
             </StackPanel>
         </Grid>
         <Grid
-            Grid.Row="1" Margin="0,150,0,0">
+            Grid.Row="1" Margin="0,100,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     x:Name="ColumnOne"
-                    Width="*" />
+                    Width="Auto" />
                 <ColumnDefinition
-                    Width="*" />
+                    Width="Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Vertical" Margin="150,10,0,0">
+            <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Vertical" Margin="100,10,0,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
@@ -66,72 +66,81 @@
                               HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="18"></ToggleSwitch>
                     </Border>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}" Margin="0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0">
+                    <TextBlock
+                        Text="Notification Time range : " FontFamily="Corbel Light" FontSize="20"  FontWeight="SemiBold" Margin="0,15" Foreground="White"
+                        />
+                    <TimePicker x:Name="MinTime" Header="Start Time" MinuteIncrement="30" ClockIdentifier="24HourClock" Margin="30,-20,0,0"
+                                SelectedTime="{x:Bind ViewModel.StartTime, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}" />
+                    <TimePicker x:Name="MaxTime" Header="End Time" MinuteIncrement="30" ClockIdentifier="24HourClock" Margin="10,-20,0,0" 
+                                SelectedTime="{x:Bind ViewModel.EndTime, Mode=TwoWay}"
+                                IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0">
                     <TextBlock
                         Text="Weather State : " FontFamily="Corbel Light" FontSize="20"  FontWeight="SemiBold" Margin="0,15" Foreground="White"
                         />
                     <ComboBox x:Name="WeatherState" Header="Select State" ItemsSource="{x:Bind ViewModel.WeatherConditions, Mode=TwoWay}" 
-                                    Margin="115,-5,0,0" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="{x:Bind ViewModel.SelectedWeatherIndex}"/>
+                                    Margin="115,-5,0,0" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="{x:Bind ViewModel.SelectedWeatherIndex}" 
+                              IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                    
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
                         Text="Temperature in °C : " FontFamily="Corbel Light" FontSize="20" Margin="0,25" FontWeight="SemiBold" Foreground="White"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min temperature" Value="{x:Bind ViewModel.inputTemperatureMin, Mode=TwoWay}" 
-                                    PlaceholderText="degree celsius" Margin="80,0,0,0"/>
+                                    PlaceholderText="degree celsius" Margin="80,0,0,0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                     <TextBlock
                         Text="To" FontFamily="Corbel Light" FontSize="22" Margin="20"
                         />
                     <muxc:NumberBox Header="Max temperature" Value="{x:Bind ViewModel.inputTemperatureMax, Mode=TwoWay}" 
-                                    PlaceholderText="degree celsius" Margin="0,0,0,0"/>
+                                    PlaceholderText="degree celsius" Margin="0,0,0,0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
                         Text="Humidity % : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" FontWeight="SemiBold" Foreground="White"
-                             Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min Humidity" Value="{x:Bind ViewModel.inputHumidityMin, Mode=TwoWay}" 
-                                    PlaceholderText="percent" Margin="135,-10,0,0" Maximum="100" Minimum="0"/>
+                                    PlaceholderText="percent" Margin="135,-10,0,0" Maximum="100" Minimum="0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                     <TextBlock
                         Text="To" FontFamily="Corbel Light" FontSize="22" Margin="20"
                         />
                     <muxc:NumberBox Header="Max humidity" Value="{x:Bind ViewModel.inputHumidityMax, Mode=TwoWay}" 
-                                    PlaceholderText="percent" Margin="0,-10,0,0" Maximum="100" Minimum="0"/>
+                                    PlaceholderText="percent" Margin="0,-10,0,0" Maximum="100" Minimum="0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
                         Text="Wind Speed (meter/sec) : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" FontWeight="SemiBold" Foreground="White"
-                             Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min Wind Speed" Value="{x:Bind ViewModel.inputWindSpeedMin, Mode=TwoWay}" 
-                                    PlaceholderText="m/s" Margin="20,-10,0,0" />
+                                    PlaceholderText="m/s" Margin="20,-10,0,0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                     <TextBlock
                         Text="To" FontFamily="Corbel Light" FontSize="22" Margin="20"
                         />
                     <muxc:NumberBox Header="Max Wind Speed" Value="{x:Bind ViewModel.inputWindSpeedMax, Mode=TwoWay}" 
-                                    PlaceholderText="m/s" Margin="0,-10,0,0"/>
+                                    PlaceholderText="m/s" Margin="0,-10,0,0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
                         Text="Cloudiness % : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" FontWeight="SemiBold" Foreground="White"
-                             Visibility="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min Cloudiness" Value="{x:Bind ViewModel.inputCloudinessMin, Mode=TwoWay}" 
-                                    PlaceholderText="percent" Margin="120,-10,0,0" Maximum="100" Minimum="0"/>
+                                    PlaceholderText="percent" Margin="120,-10,0,0" Maximum="100" Minimum="0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                     <TextBlock
                         Text="To" FontFamily="Corbel Light" FontSize="22" Margin="25"
                         />
                     <muxc:NumberBox Header="Max Cloudiness" Value="{x:Bind ViewModel.inputCloudinessMax, Mode=TwoWay}" 
-                                    PlaceholderText="percent" Margin="5,-10,0,0" Maximum="100" Minimum="0"/>
+                                    PlaceholderText="percent" Margin="5,-10,0,0" Maximum="100" Minimum="0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Vertical" Margin="50,0">
@@ -147,7 +156,7 @@
                     <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.WeatherDesc, Mode=OneWay}"
-                        FontFamily="Imprint MT Shadow" FontSize="32" FontWeight="Medium" Foreground="Black"
+                        FontFamily="Calibri Light" FontSize="32" FontWeight="SemiBold" Foreground="White"
                         Margin="10,0,0,0"/>
                     </Border>
                 </StackPanel>

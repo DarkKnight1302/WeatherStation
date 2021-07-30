@@ -10,12 +10,12 @@ namespace WeatherStationLib
     {
         private const string AppId = "53d9fe6f16a4937defff2c0fb9ab8466";
         private readonly HttpClient httpClient;
-        private readonly CacheServie cacheService;
+        public CacheService CacheService { get; private set; }
 
         public WeatherClient() 
         {
             httpClient = new HttpClient();
-            cacheService = new CacheServie();
+            CacheService = new CacheService();
         }
 
         public IAsyncOperation<CurrentWeatherApiResponse> GetCurrentWeatherUsingLatLongAsync(double lat, double lng)
@@ -65,9 +65,13 @@ namespace WeatherStationLib
             {
                 foreach (Weather wthr in current.Weather)
                 {
-                    if (String.Equals(wthr.Main, userWeather.weatherCondition))
+                    if (Enum.TryParse(wthr.Main, out WeatherCondition realWeatherCondition))
                     {
-                        return true;
+                        if (realWeatherCondition == userWeather.weatherCondition)
+                        {
+                            return true;
+                        }
+                        return false;
                     }
                 }
                 return false;
@@ -95,7 +99,7 @@ namespace WeatherStationLib
             string uri = $"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lng}&exclude={exclude}&appid={AppId}&units=metric";
             var response = await this.httpClient.GetAsync(uri).ConfigureAwait(false);
             var data = JsonConvert.DeserializeObject<ForecastedWeatherApiResponse>(response.Content.ReadAsStringAsync().Result);
-            _ = Task.Run(() => this.cacheService.UpdateDataAsync(data));
+            _ = Task.Run(() => this.CacheService.UpdateDataAsync(data));
             return data;
         }
 

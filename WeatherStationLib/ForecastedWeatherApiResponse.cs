@@ -62,6 +62,11 @@ namespace WeatherStationLib
         public Rain Rain { get; set; }
     }
 
+    public sealed class HourlyForecastedResponse
+    {
+        public IEnumerable<Hourly> Hourly { get; set; }
+    }
+
     public sealed class ForecastedWeatherApiResponse
     {
         [JsonProperty("lat")]

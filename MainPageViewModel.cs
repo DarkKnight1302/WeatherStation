@@ -57,6 +57,10 @@ namespace WeatherStation
             {
                 localSettings.Values["windspeedMax"] = 500;
             }
+            if (localSettings.Values["notifEnabled"] == null)
+            {
+                localSettings.Values["notifEnabled"] = false;
+            }
             Task.Run(() => InitAsync());
         }
 
@@ -73,6 +77,40 @@ namespace WeatherStation
         public int Cloudiness { get; private set; }
 
         public string StationLocation { get; private set; }
+
+        public TimeSpan StartTime
+        {
+            get
+            {
+                if (localSettings.Values["hourMin"] == null)
+                {
+                    return TimeSpan.Zero;
+                }
+
+                return new TimeSpan((int)localSettings.Values["hourMin"],0,0);
+            }
+            set
+            {
+                localSettings.Values["hourMin"] = value.Hours;
+            }
+        }
+
+        public TimeSpan EndTime
+        {
+            get
+            {
+                if (localSettings.Values["hourMax"] == null)
+                {
+                    return new TimeSpan(23,30,0);
+                }
+
+                return new TimeSpan((int)localSettings.Values["hourMax"], 0, 0);
+            }
+            set
+            {
+                localSettings.Values["hourMax"] = value.Hours;
+            }
+        }
 
         public bool ToggleSwitchOn
         {
@@ -98,8 +136,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["temperatureMin"] = value;
-                localSettings.Values["compareTemperature"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["temperatureMin"] = -50;
+                    localSettings.Values["compareTemperature"] = false;
+                }
+                else
+                {
+                    localSettings.Values["temperatureMin"] = value;
+                    localSettings.Values["compareTemperature"] = true;
+                }
             }
         }
 
@@ -111,8 +157,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["temperatureMax"] = value;
-                localSettings.Values["compareTemperature"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["temperatureMax"] = 50;
+                    localSettings.Values["compareTemperature"] = false;
+                }
+                else
+                {
+                    localSettings.Values["temperatureMax"] = value;
+                    localSettings.Values["compareTemperature"] = true;
+                }
             }
         }
 
@@ -124,8 +178,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["humidityMin"] = value;
-                localSettings.Values["compareHumidity"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["humidityMin"] = 0;
+                    localSettings.Values["compareHumidity"] = false;
+                }
+                else
+                {
+                    localSettings.Values["humidityMin"] = value;
+                    localSettings.Values["compareHumidity"] = true;
+                }
             }
         }
 
@@ -137,8 +199,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["humidityMax"] = value;
-                localSettings.Values["compareHumidity"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["humidityMax"] = 100;
+                    localSettings.Values["compareHumidity"] = false;
+                }
+                else
+                {
+                    localSettings.Values["humidityMax"] = value;
+                    localSettings.Values["compareHumidity"] = true;
+                }
             }
         }
 
@@ -150,8 +220,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["windspeedMin"] = value;
-                localSettings.Values["compareWindSpeed"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["windspeedMin"] = 0;
+                    localSettings.Values["compareWindSpeed"] = false;
+                }
+                else
+                {
+                    localSettings.Values["windspeedMin"] = value;
+                    localSettings.Values["compareWindSpeed"] = true;
+                }
             }
         }
 
@@ -163,8 +241,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["windspeedMax"] = value;
-                localSettings.Values["compareWindSpeed"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["windspeedMax"] = 500;
+                    localSettings.Values["compareWindSpeed"] = false;
+                }
+                else
+                {
+                    localSettings.Values["windspeedMax"] = value;
+                    localSettings.Values["compareWindSpeed"] = true;
+                }
             }
         }
 
@@ -176,8 +262,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["cloudinessMin"] = value;
-                localSettings.Values["compareCloudiness"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["cloudinessMin"] = 0;
+                    localSettings.Values["compareCloudiness"] = false;
+                }
+                else
+                {
+                    localSettings.Values["cloudinessMin"] = value;
+                    localSettings.Values["compareCloudiness"] = true;
+                }
             }
         }
 
@@ -189,8 +283,16 @@ namespace WeatherStation
             }
             set
             {
-                localSettings.Values["cloudinessMax"] = value;
-                localSettings.Values["compareCloudiness"] = true;
+                if (value == int.MinValue)
+                {
+                    localSettings.Values["cloudinessMax"] = 100;
+                    localSettings.Values["compareCloudiness"] = false;
+                }
+                else
+                {
+                    localSettings.Values["cloudinessMax"] = value;
+                    localSettings.Values["compareCloudiness"] = true;
+                }
             }
         }
 

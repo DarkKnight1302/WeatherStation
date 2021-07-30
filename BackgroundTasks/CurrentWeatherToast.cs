@@ -6,7 +6,7 @@ namespace BackgroundTasks
 {
     public sealed class CurrentWeatherToast
     {
-        public static XmlDocument GenerateCurrentWeatherToast()
+        public static XmlDocument GenerateCurrentWeatherToast(string icon)
         {
             return new ToastContent()
             {
@@ -30,7 +30,7 @@ namespace BackgroundTasks
                         },
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
-                            Source = "ms-appx:///Assets/weather-forecast.png",
+                            Source = $"http://openweathermap.org/img/wn/{icon}@2x.png",
                             HintCrop = ToastGenericAppLogoCrop.None,
                         },
                         HeroImage = new ToastGenericHeroImage()

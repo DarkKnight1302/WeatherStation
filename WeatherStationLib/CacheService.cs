@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace WeatherStationLib
 {
-    public sealed class CacheServie
+    public sealed class CacheService
     {
         private const string CacheFileName = "ForecastedCacheFile";
 
@@ -19,9 +19,9 @@ namespace WeatherStationLib
             return this.SetDataAsync(data).AsAsyncOperation<bool>();
         }
 
-        public IAsyncOperation<List<Hourly>> FetchDataAsync(List<DateTimeOffset> dtOffsetList)
+        public IAsyncOperation<HourlyForecastedResponse> FetchDataAsync(IList<DateTimeOffset> dtOffsetList)
         {
-            return this.GetDataAsync(dtOffsetList).AsAsyncOperation<List<Hourly>>();
+            return this.GetDataAsync(dtOffsetList).AsAsyncOperation<HourlyForecastedResponse>();
         }
 
         private async Task<bool> SetDataAsync(ForecastedWeatherApiResponse data)
@@ -38,7 +38,7 @@ namespace WeatherStationLib
             return true;
         }
 
-        private async Task<List<Hourly>> GetDataAsync(List<DateTimeOffset> dtOffsetList)
+        private async Task<HourlyForecastedResponse> GetDataAsync(IList<DateTimeOffset> dtOffsetList)
         {
             ForecastedWeatherApiResponse obj = null;
             IStorageItem item = await ApplicationData.Current.LocalCacheFolder.TryGetItemAsync(CacheFileName);
@@ -77,8 +77,11 @@ namespace WeatherStationLib
                     hourlyList.Add(hourly);
                 }
             }
-            
-            return hourlyList;
+            var response = new HourlyForecastedResponse
+            {
+                Hourly = hourlyList,
+            };
+            return response;
         }
 
         private byte[] ToByteArray(ForecastedWeatherApiResponse data)
