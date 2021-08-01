@@ -10,7 +10,7 @@
 	<Identity
 	  Name="c1250d8a-6825-4a2f-a3d2-ce1fe03f12de"
 	  Publisher="CN=RobinParashar"
-	  Version="1.0.1.0" />
+	  Version="1.0.2.0" />
 
 	<mp:PhoneIdentity PhoneProductId="c1250d8a-6825-4a2f-a3d2-ce1fe03f12de" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -44,7 +44,7 @@
 						<uap:ShowOn Tile="square150x150Logo"/>
 					</uap:ShowNameOnTiles>
 				</uap:DefaultTile >
-				<uap:SplashScreen Image="Assets\forecast-border.png"  BackgroundColor="white"/>
+				<uap:SplashScreen BackgroundColor="white" Image="Assets\forecast_620x300_border_final.png"/>
 			</uap:VisualElements>
 			<Extensions>
 				<uap:Extension Category="windows.protocol">
