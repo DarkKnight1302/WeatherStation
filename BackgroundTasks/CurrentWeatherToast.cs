@@ -35,7 +35,7 @@ namespace BackgroundTasks
                         },
                         HeroImage = new ToastGenericHeroImage()
                         {
-                            Source = "ms-appx:///Assets/beautiful-weather_364x180.jpg",
+                            Source = "ms-appx:///Assets/rsz_weatherstation.jpg",
                         },
                     },
                 },

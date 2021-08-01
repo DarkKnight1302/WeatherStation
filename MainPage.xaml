@@ -43,7 +43,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     x:Name="ColumnOne"
-                    Width=".5*" />
+                    Width="*"/>
                 <ColumnDefinition
                     Width= "Auto" />
             </Grid.ColumnDefinitions>
