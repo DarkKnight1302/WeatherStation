@@ -40,10 +40,10 @@ namespace WeatherStationLib
 
         private bool CompareWeather(CurrentWeatherApiResponse current, UserCustomWeather userWeather)
         {
-            var currentTemp = current.Main.Temp;
-            var currentHumidity = current.Main.Humidity;
-            var currentCloudiness = current.Clouds.All;
-            var currentWinds = current.Wind.Speed;
+            int currentTemp = (int)current.Main.Temp;
+            int currentHumidity = current.Main.Humidity;
+            int currentCloudiness = current.Clouds.All;
+            int currentWinds = (int)current.Wind.Speed;
             if (userWeather.compareTemperature && (currentTemp < userWeather.temperatureMin || currentTemp > userWeather.temperatureMax))
             {
                 return false;
@@ -61,6 +61,47 @@ namespace WeatherStationLib
                 return false;
             }
             
+            if (userWeather.compareWeatherCondition)
+            {
+                foreach (Weather wthr in current.Weather)
+                {
+                    if (Enum.TryParse(wthr.Main, out WeatherCondition realWeatherCondition))
+                    {
+                        if (realWeatherCondition == userWeather.weatherCondition)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsMatchForcastedWeather(Hourly current, UserCustomWeather userWeather)
+        {
+            int currentTemp = (int)current.Temp;
+            int currentHumidity = current.Humidity;
+            int currentCloudiness = current.Clouds;
+            int currentWinds = (int)current.WindSpeed;
+            if (userWeather.compareTemperature && (currentTemp < userWeather.temperatureMin || currentTemp > userWeather.temperatureMax))
+            {
+                return false;
+            }
+            else if (userWeather.compareHumidity && (currentHumidity < userWeather.humidityMin || currentHumidity > userWeather.humidityMax))
+            {
+                return false;
+            }
+            else if (userWeather.compareWindSpeed && (currentWinds < userWeather.windspeedMin || currentWinds > userWeather.windspeedMax))
+            {
+                return false;
+            }
+            else if (userWeather.compareCloudiness && (currentCloudiness < userWeather.cloudinessMin || currentCloudiness > userWeather.cloudinessMax))
+            {
+                return false;
+            }
+
             if (userWeather.compareWeatherCondition)
             {
                 foreach (Weather wthr in current.Weather)
@@ -99,7 +140,7 @@ namespace WeatherStationLib
             string uri = $"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lng}&exclude={exclude}&appid={AppId}&units=metric";
             var response = await this.httpClient.GetAsync(uri).ConfigureAwait(false);
             var data = JsonConvert.DeserializeObject<ForecastedWeatherApiResponse>(response.Content.ReadAsStringAsync().Result);
-            _ = Task.Run(() => this.CacheService.UpdateDataAsync(data));
+            await this.CacheService.UpdateDataAsync(data);
             return data;
         }
 

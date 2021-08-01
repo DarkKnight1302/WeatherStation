@@ -21,13 +21,12 @@ namespace BackgroundTasks
         private async Task RunCoreAsync(CancellationToken arg)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            bool notificationsEnabled = (bool)(localSettings.Values["notifEnabled"] ?? false);
             int notifAllowedHrMin = (int)(localSettings.Values["hourMin"] ?? 0);
             int notifAllowedHrMax = (int)(localSettings.Values["hourMax"] ?? 24);
-            bool notificationsEnabled = (bool)(localSettings.Values["notifEnabled"] ?? false);
-
-            if (DateTime.Now.Hour < notifAllowedHrMin || DateTime.Now.Hour > notifAllowedHrMax || !notificationsEnabled)
+            if (!notificationsEnabled)
             {
-                Debug.WriteLine("Outside time range or notif disabled.");
+                Debug.WriteLine("notif disabled.");
                 return;
             }
             WeatherClient weatherClient = new WeatherClient();
@@ -43,16 +42,23 @@ namespace BackgroundTasks
             }
             List<Task> taskList = new List<Task>();
             taskList.Add(Task.Run(async() => await ShowCurrentWeatherToast(weatherClient, location, localSettings).ConfigureAwait(false)));
+            taskList.Add(Task.Run(async () => await weatherClient.GetForecastedWeatherUsingLatLongAsync(location.lat, location.lng)));
+            taskList.Add(Task.Run(async () => await ShowFutureWeatherToast(weatherClient, location, localSettings, notifAllowedHrMin, notifAllowedHrMax).ConfigureAwait(false)));
             await Task.WhenAll(taskList).ConfigureAwait(false);
         }
 
-        private async Task ShowFutureWeatherToast(WeatherClient weatherClient, Location location, ApplicationDataContainer localSettings)
+        private async Task ShowFutureWeatherToast(WeatherClient weatherClient, Location location, ApplicationDataContainer localSettings, int notifAllowedHrMin, int notifAllowedHrMax)
         {
             CacheService cacheService = weatherClient.CacheService;
             IList<DateTimeOffset> next24Hours = new List<DateTimeOffset>();
             DateTimeOffset current = DateTimeOffset.Now;
             for (int i = 1; i <= 24; i++) {
-                next24Hours.Add(current.AddHours(i));
+                var nextTime = current.AddHours(i);
+                if (nextTime.Hour < notifAllowedHrMin || nextTime.Hour > notifAllowedHrMax)
+                {
+                    continue;
+                }
+                next24Hours.Add(nextTime);
             }
             var forecastResponse = await cacheService.FetchDataAsync(next24Hours);
             if (forecastResponse != null && forecastResponse.Hourly.Any())
@@ -62,29 +68,35 @@ namespace BackgroundTasks
 #if DEBUG
                 dateOfLastNotif = 0;
 #endif
-               /* foreach (var hourWeather in forecastResponse.Hourly)
+                int index = 0;
+                foreach (var hourWeather in forecastResponse.Hourly)
                 {
-                    if (weatherClient.AreConditionsPreferableAsync(hourWeather, userCustomWeather)
+                    if (weatherClient.IsMatchForcastedWeather(hourWeather, userCustomWeather)
                         && DateTime.Now.Day != dateOfLastNotif)
                     {
-                        var content = CurrentWeatherToast.GenerateCurrentWeatherToast();
+                        var content = FutureWeatherToast.GenerateFutureWeatherToast(hourWeather.Weather.First().Icon, next24Hours.ElementAt(index));
                         ToastNotification toastNotification = new ToastNotification(content);
                         ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
                         localSettings.Values["notifDateFuture"] = DateTime.Now.Day;
+                        return;
                     }
-                }*/
+                    index++;
+                }
             }
         }
 
         private async Task ShowCurrentWeatherToast(WeatherClient weatherClient, Location location, ApplicationDataContainer localSettings)
         {
             CurrentWeatherApiResponse currentWeather = await weatherClient.GetCurrentWeatherUsingLatLongAsync(location.lat, location.lng);
+            int notifAllowedHrMin = (int)(localSettings.Values["hourMin"] ?? 0);
+            int notifAllowedHrMax = (int)(localSettings.Values["hourMax"] ?? 24);
             UserCustomWeather userCustomWeather = GetUserCustomWeather(localSettings);
             int dateOfLastNotif = (int)(localSettings.Values["notifDate"] ?? 0);
 #if DEBUG
             dateOfLastNotif = 0;
 #endif
             if (weatherClient.AreConditionsPreferableAsync(currentWeather, userCustomWeather)
+                && DateTime.Now.Hour >= notifAllowedHrMin &&  DateTime.Now.Hour <= notifAllowedHrMax
                 && DateTime.Now.Day != dateOfLastNotif)
             {
                 var content = CurrentWeatherToast.GenerateCurrentWeatherToast(currentWeather.Weather.First().Icon);

@@ -24,6 +24,8 @@ namespace WeatherStation
     {
         public MainPage()
         {
+            this.RequestedTheme = ElementTheme.Dark;
+
             this.InitializeComponent();
         }
 

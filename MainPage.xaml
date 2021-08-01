@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muic="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -16,7 +17,7 @@
 
     <Grid BorderThickness="1,1,1,1">
         <Grid.Background>
-            <ImageBrush Stretch="Fill" ImageSource="Assets/beautiful-weather.jpg" />
+            <ImageBrush Stretch="Fill" ImageSource="Assets/WeatherStation.jpg"  Opacity=".4"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -34,7 +35,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="Auto">
                 <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" Text="Station Location:" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" Text="{x:Bind ViewModel.StationLocation, Mode=OneWay}" VerticalAlignment="Top" Foreground="Red"/>
+                <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" Text="{x:Bind ViewModel.StationLocation, Mode=OneWay}" VerticalAlignment="Top" Foreground="White"/>
             </StackPanel>
         </Grid>
         <Grid
@@ -42,18 +43,18 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     x:Name="ColumnOne"
-                    Width="Auto" />
+                    Width=".5*" />
                 <ColumnDefinition
-                    Width="Auto" />
+                    Width= "Auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Vertical" Margin="100,10,0,0">
+            <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Vertical" Margin="0,10,0,0" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
                     x:Name="FavWeather"
                     Text="Set your favourite weather"
                     HorizontalAlignment="Center"
-                    FontSize="36" FontFamily="Bahnschrift" FontWeight="Bold"
+                    FontSize="36" FontFamily="Bahnschrift"
                     />
                     </Border>
                 </StackPanel>
@@ -63,33 +64,35 @@
                               OffContent="Enable Favourite Weather Notifications"
                               OnContent="Notifications Enabled"
                               Margin="0,10"
-                              HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="18"></ToggleSwitch>
+                              HorizontalAlignment="Center"  FontSize="18"></ToggleSwitch>
                     </Border>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0">
                     <TextBlock
-                        Text="Notification Time range : " FontFamily="Corbel Light" FontSize="20"  FontWeight="SemiBold" Margin="0,15" Foreground="White"
+                        Text="Notification Time range : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" Foreground="White"
                         />
-                    <TimePicker x:Name="MinTime" Header="Start Time" MinuteIncrement="30" ClockIdentifier="24HourClock" Margin="30,-20,0,0"
+                    <StackPanel Orientation="Vertical">
+                        <TimePicker x:Name="MinTime" Header="Start Time" MinuteIncrement="30" ClockIdentifier="24HourClock" Margin="30,0,0,10"
                                 SelectedTime="{x:Bind ViewModel.StartTime, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}" />
-                    <TimePicker x:Name="MaxTime" Header="End Time" MinuteIncrement="30" ClockIdentifier="24HourClock" Margin="10,-20,0,0" 
+                        <TimePicker x:Name="MaxTime" Header="End Time" MinuteIncrement="30" ClockIdentifier="24HourClock" Margin="28,0,0,10" 
                                 SelectedTime="{x:Bind ViewModel.EndTime, Mode=TwoWay}"
                                 IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
+                    </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0">
                     <TextBlock
-                        Text="Weather State : " FontFamily="Corbel Light" FontSize="20"  FontWeight="SemiBold" Margin="0,15" Foreground="White"
+                        Text="Weather State : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" Foreground="White"
                         />
                     <ComboBox x:Name="WeatherState" Header="Select State" ItemsSource="{x:Bind ViewModel.WeatherConditions, Mode=TwoWay}" 
                                     Margin="115,-5,0,0" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="{x:Bind ViewModel.SelectedWeatherIndex}" 
                               IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
-                   
+
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Temperature in °C : " FontFamily="Corbel Light" FontSize="20" Margin="0,25" FontWeight="SemiBold" Foreground="White"
+                        Text="Temperature in °C : " FontFamily="Corbel Light" FontSize="20" Margin="0,25"  Foreground="White"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min temperature" Value="{x:Bind ViewModel.inputTemperatureMin, Mode=TwoWay}" 
@@ -98,12 +101,12 @@
                         Text="To" FontFamily="Corbel Light" FontSize="22" Margin="20"
                         />
                     <muxc:NumberBox Header="Max temperature" Value="{x:Bind ViewModel.inputTemperatureMax, Mode=TwoWay}" 
-                                    PlaceholderText="degree celsius" Margin="0,0,0,0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
+                                    PlaceholderText="degree celsius" Margin="0,0,30,0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Humidity % : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" FontWeight="SemiBold" Foreground="White"
+                        Text="Humidity % : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" Foreground="White"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min Humidity" Value="{x:Bind ViewModel.inputHumidityMin, Mode=TwoWay}" 
@@ -117,7 +120,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Wind Speed (meter/sec) : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" FontWeight="SemiBold" Foreground="White"
+                        Text="Wind Speed (meter/sec) : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" Foreground="White"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min Wind Speed" Value="{x:Bind ViewModel.inputWindSpeedMin, Mode=TwoWay}" 
@@ -131,7 +134,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Cloudiness % : " FontFamily="Corbel Light" FontSize="20" Margin="0,15" FontWeight="SemiBold" Foreground="White"
+                        Text="Cloudiness % : " FontFamily="Corbel Light" FontSize="20" Margin="0,15"  Foreground="White"
                         />
                     </Border>
                     <muxc:NumberBox Header="Min Cloudiness" Value="{x:Bind ViewModel.inputCloudinessMin, Mode=TwoWay}" 
@@ -143,33 +146,36 @@
                                     PlaceholderText="percent" Margin="5,-10,0,0" Maximum="100" Minimum="0" IsEnabled="{x:Bind ViewModel.ToggleSwitchOn, Mode=OneWay}"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Vertical" Margin="50,0">
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" Orientation="Vertical" Margin="50,0" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
                     x:Name="Temperature"
-                    Text="Current Weather -"
+                    Text="Current Weather :"
                     HorizontalAlignment="Left"
-                    FontSize="36" FontFamily="Bahnschrift" FontWeight="Bold"
+                    FontSize="36" FontFamily="Bahnschrift"
                     />
                     </Border>
-                    <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.WeatherDesc, Mode=OneWay}"
-                        FontFamily="Calibri Light" FontSize="32" FontWeight="SemiBold" Foreground="White"
+                        FontFamily="Calibri Light" FontSize="32" Foreground="White"
                         Margin="10,0,0,0"/>
-                    </Border>
+                    <Image Width="50" Height="50" Margin="0,-10,0,0">
+                        <Image.Source>
+                            <BitmapImage UriSource="{x:Bind ViewModel.IconImage, Mode=OneWay}" />
+                        </Image.Source>
+                    </Image>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Temperature : " FontFamily="Corbel Light" FontSize="22" FontWeight="SemiBold"
+                        Text="Temperature : " FontFamily="Corbel Light" FontSize="22"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.Temperature, Mode=OneWay}"
-                        FontFamily="Calibri Light" FontSize="22" FontWeight="Medium" Foreground="White"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="White"
                         Margin="10,0,0,0"
                         />
                     </Border>
@@ -177,20 +183,20 @@
                         <TextBlock
                         Text="°C"
                         FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="White"
-                        Margin="10,0,0,0" FontStyle="Italic" FontWeight="Medium"
+                        Margin="10,0,0,0" FontStyle="Italic"
                         />
                     </Border>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Temperature feels like : " FontFamily="Corbel Light" FontSize="22" FontWeight="SemiBold"
+                        Text="Temperature feels like : " FontFamily="Corbel Light" FontSize="22"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.TemperatureFeelsLike, Mode=OneWay}"
-                        FontFamily="Calibri Light" FontSize="22" FontWeight="Medium" Foreground="White"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="White"
                         Margin="10,0,0,0"
                         />
                     </Border>
@@ -198,27 +204,27 @@
                         <TextBlock
                         Text="°C"
                         FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="White"
-                        Margin="10,0,0,0" FontStyle="Italic" FontWeight="Medium"
+                        Margin="10,0,0,0" FontStyle="Italic"
                         />
                     </Border>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Humidity : " FontFamily="Corbel Light" FontSize="22" FontWeight="SemiBold"
+                        Text="Humidity : " FontFamily="Corbel Light" FontSize="22"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.Humidity, Mode=OneWay}"
-                        FontFamily="Calibri Light" FontSize="22" FontWeight="Medium" Foreground="White"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="White"
                         Margin="10,0,0,0"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="%"
-                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" FontWeight="Medium" Foreground="White"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="White"
                         Margin="10,0,0,0" FontStyle="Italic"
                         />
                     </Border>
@@ -226,41 +232,41 @@
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Wind Speed : " FontFamily="Corbel Light" FontSize="22" FontWeight="SemiBold"
+                        Text="Wind Speed : " FontFamily="Corbel Light" FontSize="22"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.WindSpeed, Mode=OneWay}"
-                        FontFamily="Calibri Light" FontSize="22" FontWeight="Medium" Foreground="White"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="White"
                         Margin="10,0,0,0"
                         />
                     </Border>
-                    <Border Background="Transparent">
+                    <muic:DropShadowPanel BlurRadius="0" ShadowOpacity="1" OffsetX="8" OffsetY="0" Color="Black">
                         <TextBlock
                         Text="meter per second"
-                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" FontWeight="Medium" Foreground="White"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True" Foreground="White"
                         Margin="10,0,0,0" FontStyle="Italic"
                         />
-                    </Border>
+                    </muic:DropShadowPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
                     <Border Background="Transparent">
                         <TextBlock
-                        Text="Cloudiness : " FontFamily="Corbel Light" FontSize="22" FontWeight="SemiBold"
+                        Text="Cloudiness : " FontFamily="Corbel Light" FontSize="22"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="{x:Bind ViewModel.Cloudiness, Mode=OneWay}"
-                        FontFamily="Calibri Light" FontSize="22"  FontWeight="Medium" Foreground="White"
+                        FontFamily="Calibri Light" FontSize="22" Foreground="White"
                         Margin="10,0,0,0"
                         />
                     </Border>
                     <Border Background="Transparent">
                         <TextBlock
                         Text="%"
-                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True"  FontWeight="Medium"
+                        FontFamily="Candara Light" FontSize="22" IsColorFontEnabled="True"
                         Margin="10,0,0,0" FontStyle="Italic" Foreground="White"
                         />
                     </Border>

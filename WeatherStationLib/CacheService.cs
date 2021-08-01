@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -13,6 +14,7 @@ namespace WeatherStationLib
     public sealed class CacheService
     {
         private const string CacheFileName = "ForecastedCacheFile";
+        private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public IAsyncOperation<bool> UpdateDataAsync(ForecastedWeatherApiResponse data)
         {
@@ -26,36 +28,44 @@ namespace WeatherStationLib
 
         private async Task<bool> SetDataAsync(ForecastedWeatherApiResponse data)
         {
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             try
             {
                 StorageFile forecastedDataCacheFile = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(CacheFileName, CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteBytesAsync(forecastedDataCacheFile, ToByteArray(data));
             }
-            catch (Exception e)
+             finally
             {
-                return false;
+                semaphoreSlim.Release();
             }
             return true;
         }
 
         private async Task<HourlyForecastedResponse> GetDataAsync(IList<DateTimeOffset> dtOffsetList)
         {
+            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
             ForecastedWeatherApiResponse obj = null;
-            IStorageItem item = await ApplicationData.Current.LocalCacheFolder.TryGetItemAsync(CacheFileName);
-            if (item?.IsOfType(StorageItemTypes.File) == true)
+            try
             {
-                StorageFile forecastedDataCacheFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync(CacheFileName);
-                using (IRandomAccessStreamWithContentType stream = await forecastedDataCacheFile.OpenReadAsync())
-                using (DataReader reader = new DataReader(stream))
+                IStorageItem item = await ApplicationData.Current.LocalCacheFolder.TryGetItemAsync(CacheFileName);
+                if (item?.IsOfType(StorageItemTypes.File) == true)
                 {
-                    await reader.LoadAsync((uint)stream.Size);
-                    string jsonString = reader.ReadString((uint)stream.Size);
-                    if(String.IsNullOrEmpty(jsonString))
+                    StorageFile forecastedDataCacheFile = await ApplicationData.Current.LocalCacheFolder.GetFileAsync(CacheFileName);
+                    using (IRandomAccessStreamWithContentType stream = await forecastedDataCacheFile.OpenReadAsync())
+                    using (DataReader reader = new DataReader(stream))
                     {
-                        return null;
+                        await reader.LoadAsync((uint)stream.Size);
+                        string jsonString = reader.ReadString((uint)stream.Size);
+                        if (String.IsNullOrEmpty(jsonString))
+                        {
+                            return null;
+                        }
+                        obj = JsonConvert.DeserializeObject<ForecastedWeatherApiResponse>(jsonString);
                     }
-                    obj = JsonConvert.DeserializeObject<ForecastedWeatherApiResponse>(jsonString);
                 }
+            } finally
+            {
+                semaphoreSlim.Release();
             }
             List<Hourly> hourlyList = new List<Hourly>();
             foreach (DateTimeOffset dtOffset in dtOffsetList)

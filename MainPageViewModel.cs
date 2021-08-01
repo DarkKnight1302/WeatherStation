@@ -78,6 +78,8 @@ namespace WeatherStation
 
         public string StationLocation { get; private set; }
 
+        public Uri IconImage { get; private set; }
+
         public TimeSpan StartTime
         {
             get
@@ -348,6 +350,7 @@ namespace WeatherStation
                     this.WeatherDesc = currentWeather.Weather.FirstOrDefault().Description.ToUpper();
                     this.Cloudiness = currentWeather.Clouds.All;
                     this.StationLocation = currentWeather.Name + ", " + currentWeather.Sys.Country;
+                    this.IconImage = new Uri($"http://openweathermap.org/img/wn/{currentWeather.Weather.FirstOrDefault().Icon}@2x.png");
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
                         () =>
                         {
@@ -358,6 +361,7 @@ namespace WeatherStation
                             this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(this.WeatherDesc)));
                             this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(this.Cloudiness)));
                             this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(this.StationLocation)));
+                            this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(this.IconImage)));
                             var weatherConditionEnums = Enum.GetValues(typeof(WeatherCondition));
                             foreach (var weatherCondition in weatherConditionEnums)
                             {
