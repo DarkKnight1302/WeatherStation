@@ -30,7 +30,7 @@ namespace WeatherStation
         /// </summary>
         public App()
         {
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Maximized;
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

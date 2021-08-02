@@ -10,7 +10,7 @@
 	<Identity
 	  Name="c1250d8a-6825-4a2f-a3d2-ce1fe03f12de"
 	  Publisher="CN=RobinParashar"
-	  Version="1.0.2.0" />
+	  Version="1.0.3.0" />
 
 	<mp:PhoneIdentity PhoneProductId="c1250d8a-6825-4a2f-a3d2-ce1fe03f12de" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
